@@ -1,21 +1,17 @@
-// Linkedin API
 var SPREADSHEET_ID = "ID_OF_SPREADSHEET_WHERE_YOU_WANT_DATA_TO_BE_SAVED"
 var AUTHORIZE_URL = 'https://www.linkedin.com/uas/oauth2/authorization';
 var TOKEN_URL = 'https://www.linkedin.com/uas/oauth2/accessToken';
 var CLIENT_ID = 'FROM_LINKEDIN_APP'; // create a new app here: https://www.linkedin.com/secure/developer?newapp=
 var CLIENT_SECRET = 'FROM_LINKEDIN_APP';
-
 var REDIRECT_URL= ScriptApp.getService().getUrl();
 
 //this is the user propety where we'll store the token & state parameter for authorize URL
 var tokenPropertyName = 'LINKEDIN_OAUTH_TOKEN'; 
 var statePropertyName = 'STATE_VALUE_AUTH'
 
-
 /*
  * Function called first when Web App exectues
  */
-
 function doGet(e) {    
   UserProperties.setProperty(tokenPropertyName, '');
   if(e.parameters.code){//if we get "code" as a parameter in, then this is a callback. we can make this more explicit
@@ -34,7 +30,6 @@ function doGet(e) {
 /*
  * Populate LinkedIn Data in "LinkedIn_BuiltWith_Company_Check_Production" Spreadsheet
  */
-
 function populateLinkedInData(authorization, state) {
   // is state valid
   if (authorization)
@@ -104,7 +99,6 @@ function populateLinkedInData(authorization, state) {
 /*
  * Extract data from XML
  */
-
 function getDatFromLinkedInXml_(xmlRaw, companyName){
   
   var company = Xml.parse(xmlRaw).getElement();
@@ -190,7 +184,6 @@ OR
 /*
  * Extract Company ID from XML
  */
-
 function getCompanyId_(xmlRaw){
   var xml = Xml.parse(xmlRaw);
   var companies = xml.getElement();
@@ -219,7 +212,6 @@ function getCompanyId_(xmlRaw){
 /*
  * Get URL for Authorization (Step 1 of oAuth 2.0)
  */
-
 function getURLForAuthorization(){
   STATE = generateRandomString(25); 
   Logger.log("STATE =" + STATE);
@@ -231,7 +223,6 @@ function getURLForAuthorization(){
 /*
  * Fetch the oAuth 2.0 Access Token and save as a script property
  */
-
 function getAndStoreAccessToken(code){
   var parameters = {
      method : 'post',
@@ -250,7 +241,6 @@ function getAndStoreAccessToken(code){
 /*
  * Check if a valid oAuth 2.0 access token is available in script property
  */
-
 function isTokenValid() {
   var token = UserProperties.getProperty(tokenPropertyName);
   Logger.log("Token Value = "+token);
@@ -263,7 +253,6 @@ function isTokenValid() {
 /*
  * Generate a random string
  */
-
 function generateRandomString(n) {    
   var chars = ['a', 'b','c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   chars.push('A', 'B', 'C', 'D', 'E', 'F','G','H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
@@ -275,5 +264,4 @@ function generateRandomString(n) {
     randomString = randomString + chars[r];
   }  
   return randomString;
-}  
-
+}
