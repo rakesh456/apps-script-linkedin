@@ -28,7 +28,7 @@ function doGet(e) {
 }
 
 /*
- * Populate LinkedIn Data in "LinkedIn_BuiltWith_Company_Check_Production" Spreadsheet
+ * Populate LinkedIn Data 
  */
 function populateLinkedInData(authorization, state) {
   // is state valid
@@ -56,7 +56,7 @@ function populateLinkedInData(authorization, state) {
   var reWebAddress = /([A-Za-z0-9][A-Za-z0-9-]{1,62}\.[A-Za-z\.]+)/; // regEx to test if it is web address
   for(i=0; i<lastRow; i++){
     if(linkedInId[i][0] != '') continue; //Leave records which are already processed
-    ss.toast('Please standby...Processing row '+(i+2)+' using LinkedIn API');
+    //ss.toast('Please standby...Processing row '+(i+2)+' using LinkedIn API');
     var reqUrl;
     if (reWebAddress.test(domains[i][0])) {
         reqUrl = url + '?email-domain='+domains[i][0]+'&oauth2_access_token='+token;
@@ -102,13 +102,9 @@ function populateLinkedInData(authorization, state) {
 function getDatFromLinkedInXml_(xmlRaw, companyName){
   
   var company = Xml.parse(xmlRaw).getElement();
-  
-  var id = company.getElement('id').getText(); //
-  
+  var id = company.getElement('id').getText(); 
   var name = companyName;
-  
   var numFollowers  = company.getElement('num-followers').getText();//
-  
   var companyType = '';
   var companyTypeXml  = company.getElement('company-type');
   if(companyTypeXml != null)companyType += companyTypeXml.getElement('name').getText();
@@ -122,15 +118,14 @@ function getDatFromLinkedInXml_(xmlRaw, companyName){
   
   var statusXml = company.getElement('status');
   var status = '';
-  if(statusXml != null) status += statusXml.getElement('name').getText();//
-  
+  if(statusXml != null) status += statusXml.getElement('name').getText();
   var blogRssUrlXml  = company.getElement('blog-rss-url');
   var blogRssUrl = '';
   if(blogRssUrlXml != null) blogRssUrl += blogRssUrlXml.getText();
   
   var twitterIdXml  = company.getElement('twitter-id');
   var twitterId = '';
-  if(twitterIdXml != null)twitterId += twitterIdXml.getText();//
+  if(twitterIdXml != null)twitterId += twitterIdXml.getText();
   
   var employeeCountRangeXml  =  company.getElement('employee-count-range');
   var employeeCountRange = '';
